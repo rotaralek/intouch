@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using InTouch.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace InTouch
 {
@@ -29,6 +31,9 @@ namespace InTouch
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<MobileContext>(options => options.UseSqlServer(connection));
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
